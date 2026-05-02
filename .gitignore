@@ -1,0 +1,14 @@
+# Large data files (exceeds GitHub 100MB limit)
+search_results_0.json
+update_alumni_0.sql
+alumni.csv
+
+# Temporary/generated files
+names.txt
+nims.txt
+real_names.txt
+real_names_2019_2025.txt
+
+# OS files
+.DS_Store
+Thumbs.db
