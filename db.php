@@ -1,10 +1,20 @@
 <?php
 session_start();
 
-$host = 'localhost';
-$dbname = 'alumni_tracker';
-$username = 'root';
-$password = '';
+// Auto-detect environment: hosting (AeonFree) vs local
+if ($_SERVER['HTTP_HOST'] !== 'localhost' && strpos($_SERVER['HTTP_HOST'] ?? '', 'hstn.me') !== false) {
+    // === AeonFree Hosting ===
+    $host = 'sql208.hstn.me';
+    $dbname = 'mseet_41812072_alumni_trackerumm';
+    $username = 'mseet_41812072';
+    $password = 'ajissss18';
+} else {
+    // === Local Development ===
+    $host = 'localhost';
+    $dbname = 'alumni_tracker';
+    $username = 'root';
+    $password = '';
+}
 
 try {
     $pdo = new PDO(

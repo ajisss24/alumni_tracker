@@ -1,19 +1,33 @@
 <?php
 /**
  * Setup Database - Jalankan sekali untuk membuat tabel dan admin default
- * Akses via: http://localhost:8000/setup_db.php
+ * Akses via browser: http://your-domain/setup_db.php
  */
 
-$host = 'localhost';
-$username = 'root';
-$password = '';
+// Auto-detect environment
+if (strpos($_SERVER['HTTP_HOST'] ?? '', 'hstn.me') !== false) {
+    $host = 'sql208.hstn.me';
+    $dbname = 'mseet_41812072_alumni_trackerumm';
+    $username = 'mseet_41812072';
+    $password = 'ajissss18';
+} else {
+    $host = 'localhost';
+    $dbname = 'alumni_tracker';
+    $username = 'root';
+    $password = '';
+}
 
 try {
-    // Create database
-    $pdo = new PDO("mysql:host=$host", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->exec("CREATE DATABASE IF NOT EXISTS alumni_tracker CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-    $pdo->exec("USE alumni_tracker");
+    // On hosting, database is pre-created; on local, create it
+    if ($host === 'localhost') {
+        $pdo = new PDO("mysql:host=$host", $username, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo->exec("CREATE DATABASE IF NOT EXISTS $dbname CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+        $pdo->exec("USE $dbname");
+    } else {
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
 
     // Drop & recreate tables
     $pdo->exec("SET FOREIGN_KEY_CHECKS = 0");
